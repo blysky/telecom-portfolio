@@ -4,7 +4,6 @@ Personal SQL portfolio project analyzing telecom incident data, technician perfo
 
 ================================================================================
 PROJECT OVERVIEW
-================================================================================
 
 Built a custom PostgreSQL database to model a real-world telecom scenario:
 - Regions & Locations — 3 regions, 9 locations across North America
@@ -15,7 +14,6 @@ Built a custom PostgreSQL database to model a real-world telecom scenario:
 
 ================================================================================
 DATABASE SETUP
-================================================================================
 
 QUICK START
 
@@ -36,7 +34,6 @@ FILES
 
 ================================================================================
 PORTFOLIO QUERIES
-================================================================================
 
 Query 1: Incident Analysis by Region
 What: Incident volume + critical severity by region
@@ -76,7 +73,6 @@ Skills: Normalization, multi-factor scoring
 
 ================================================================================
 SKILLS DEMONSTRATED
-================================================================================
 
 DATA MANIPULATION
 - Multi-table JOINs (3-4 tables per query)
@@ -102,7 +98,6 @@ SQL DIALECT
 
 ================================================================================
 KEY FINDINGS
-================================================================================
 
 INCIDENT MANAGEMENT
 - NYC Downtown Hub has highest customer impact (43,000 affected across 11 incidents)
@@ -133,40 +128,7 @@ TECHNICIAN EFFICIENCY
 - Top 10 technicians all maintain 100% incident resolution rate
 
 ================================================================================
-DATABASE SCHEMA
-================================================================================
-
-regions (region_id, region_name)
-  └─ locations (location_id, region_id, location_name)
-      └─ incidents (incident_id, location_id, equipment_id, severity, affected_customers)
-      └─ equipment (equipment_id, location_id, type_id, serial_number)
-          └─ equipment_types (type_id, type_name)
-
-technicians (technician_id, first_name, last_name, region_id)
-  └─ repairs (repair_id, incident_id, technician_id, cost, status)
-
-================================================================================
-HOW TO USE THESE FILES
-================================================================================
-
-FOR LEARNING SQL
-- Start with Query 1 (simple JOINs + aggregates)
-- Progress to Query 4 (window functions)
-- Review Query 6 (multiple CTEs)
-- Try Queries 7-8 (advanced LAG/LEAD, normalization)
-
-FOR YOUR PORTFOLIO
-- Run all 8 queries to show breadth of SQL skills
-- Screenshot or export results
-- Include results in LinkedIn or resume
-
-FOR EXTENDING
-- Add queries for: incident trends, technician scheduling, equipment maintenance
-- Consider: adding dates dimension, cost budgeting, SLA tracking
-
-================================================================================
 TECHNOLOGIES USED
-================================================================================
 
 - Database: PostgreSQL 18
 - Data: 85 records (sample/synthetic)
@@ -174,10 +136,8 @@ TECHNOLOGIES USED
 
 ================================================================================
 AUTHOR
-================================================================================
 
 Nima
 Toronto, ON
 October 2026
 
-Questions or feedback? Feel free to fork and extend this project.
