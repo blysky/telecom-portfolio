@@ -13,7 +13,7 @@ equipment types fail most often.
 I also built three Tableau dashboards from the same data:
 https://public.tableau.com/app/profile/nima.fathi
 
-## Loading the data
+Loading the data
 
 The first two SQL files are an early, smaller sample. The insert file loads only
 70 incidents and fails on the repairs table, so don't use it for analysis. Load the
