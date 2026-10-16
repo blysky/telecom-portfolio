@@ -1,143 +1,33 @@
-TELECOM DATABASE PORTFOLIO
+# Telecom incident analysis
 
-Personal SQL portfolio project analyzing telecom incident data, technician performance, and equipment reliability. This is a self-designed database tracking network infrastructure across multiple regions.
+I built this to practise SQL on a dataset shaped like a telecom operations log:
+equipment, incidents, technicians, repairs, and the regions and locations they
+belong to. The data is synthetic. I generated it for this project, so the numbers
+describe the database, not a real network.
 
-================================================================================
-PROJECT OVERVIEW
+The database holds 85 incidents, 85 repairs, and 41 technicians across 3 regions.
+The eight queries in `03_analysis_queries.sql` answer questions like which region
+has the most critical incidents, which technicians do the most repairs, and which
+equipment types fail most often.
 
-Built a custom PostgreSQL database to model a real-world telecom scenario:
-- Regions & Locations — 3 regions, 9 locations across North America
-- Equipment — 27 pieces across 5 equipment types (Router, Switch, Fiber Node, Splitter, Backup Power)
-- Incidents — 80 network incidents tracked by severity and customer impact
-- Repairs — 85 repair records linked to technicians and incidents
-- Technicians — 41 field technicians assigned across regions
+I also built three Tableau dashboards from the same data:
+https://public.tableau.com/app/profile/nima.fathi
 
-================================================================================
-DATABASE SETUP
+## Loading the data
 
-QUICK START
+The first two SQL files are an early, smaller sample. The insert file loads only
+70 incidents and fails on the repairs table, so don't use it for analysis. Load the
+full dump instead:
 
-1. Create the database:
-   psql -U username -d postgres -f 01_create_tables.sql
+```
+docker run -d --name pg-telecom -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:16
+docker exec pg-telecom psql -U postgres -c "CREATE DATABASE telecom;"
+docker cp telecom_full_dump.sql pg-telecom:/tmp/dump.sql
+docker exec pg-telecom psql -U postgres -d telecom -f /tmp/dump.sql
+```
 
-2. Insert sample data:
-   psql -U username -d postgres -f 02_insert_data.sql
+To check it loaded, count the incidents. You should get 85:
 
-3. Run analysis queries:
-   psql -U username -d postgres -f 03_analysis_queries.sql
-
-FILES
-
-- 01_create_tables.sql — Schema definition with relationships and indexes
-- 02_insert_data.sql — Sample data (80 incidents, 85 repairs, 41 technicians)
-- 03_analysis_queries.sql — 8 analytical queries with results and insights
-
-================================================================================
-PORTFOLIO QUERIES
-
-Query 1: Incident Analysis by Region
-What: Incident volume + critical severity by region
-Skills: JOINs, CASE, GROUP BY
-
-Query 2: Technician Performance Ranking
-What: Top technicians by repair volume and cost
-Skills: CTEs, RANK(), aggregates
-
-Query 3: Equipment Reliability by Type
-What: % of equipment units that experienced incidents
-Skills: JOINs, DISTINCT, calculations
-
-Query 4: Repair Cost Trends
-What: Cumulative repair costs over time
-Skills: Running SUM, window functions
-
-Query 5A: Resolution Time Ranked
-What: Individual repairs ranked by duration per severity
-Skills: Window functions, PARTITION BY
-
-Query 5B: Resolution Time Summary
-What: Average/min/max resolution time by severity
-Skills: Date math, aggregates
-
-Query 6: Location Impact Analysis
-What: Locations ranked by total customer impact
-Skills: Multiple CTEs, ranking
-
-Query 7: Severity Escalation Patterns
-What: Equipment with escalating incident severity
-Skills: LAG/LEAD, severity trending
-
-Query 8: Technician Efficiency Score
-What: Top 10 technicians ranked by weighted metrics
-Skills: Normalization, multi-factor scoring
-
-================================================================================
-SKILLS DEMONSTRATED
-
-DATA MANIPULATION
-- Multi-table JOINs (3-4 tables per query)
-- Common Table Expressions (CTEs) — single and multiple
-- Subqueries and filtering
-
-ANALYTICS
-- Window Functions: RANK(), running SUM()
-- Aggregates: COUNT(), SUM(), AVG(), with CASE conditions
-- Date arithmetic for intervals
-
-BUSINESS LOGIC
-- Percentage calculations (equipment failure rates)
-- Customer impact analysis
-- Performance ranking with tie handling
-- Cumulative cost tracking
-
-SQL DIALECT
-- PostgreSQL 18
-- Type casting (::NUMERIC for decimal division)
-- Window frame syntax (ROWS BETWEEN)
-- Date/time functions
-
-================================================================================
-KEY FINDINGS
-
-INCIDENT MANAGEMENT
-- NYC Downtown Hub has highest customer impact (43,000 affected across 11 incidents)
-- Eastern region drives most incidents (32 total, 6 critical)
-
-TECHNICIAN PERFORMANCE
-- Mary Johnson is top performer (4 completed repairs, $3,675 average cost)
-- 15 technicians tied for 2nd place (3 repairs each)
-
-EQUIPMENT RELIABILITY
-- Splitter is most reliable (33% have experienced issues)
-- Switch and Fiber Node have 100% incident rates (all units affected at least once)
-- Note: Metric measures % of units with incidents, not frequency
-
-OPERATIONS
-- Total repair costs: $186,850 (Jan-Apr 2024)
-- Resolution time: Critical 2.4h avg, Low 0.8h avg
-- All repairs completed same-day (max 3.2 hours)
-
-EQUIPMENT ESCALATION
-- G5678-LOC7 shows worst escalation trend (40% of incidents escalated)
-- 16 equipment units experienced severity escalations
-- Identifies maintenance priorities based on degradation patterns
-
-TECHNICIAN EFFICIENCY
-- David Wilson is top performer (97.92 efficiency score)
-- Scoring balances cost, speed, and quality equally (40/40/20)
-- Top 10 technicians all maintain 100% incident resolution rate
-
-================================================================================
-TECHNOLOGIES USED
-
-- Database: PostgreSQL 18
-- Data: 85 records (sample/synthetic)
-- SQL Concepts: CTEs, window functions, multi-table joins, aggregates
-
-================================================================================
-AUTHOR
-
-Nima
-Toronto, ON
-October 2026
-
+```
+docker exec pg-telecom psql -U postgres -d telecom -c "SELECT COUNT(*) FROM incidents;"
+```
